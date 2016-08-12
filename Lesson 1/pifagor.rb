@@ -4,11 +4,11 @@ def r_triangle?(a, b, c)
 end
 
 print "Введите длину 1-й стороны треугольника: "
-a = gets.to_i
+a = gets.to_f
 print "Введите длину 2-й стороны треугольника: "
-b = gets.to_i
+b = gets.to_f
 print "Введите длину 3-й стороны треугольника: "
-c = gets.to_i
+c = gets.to_f
 
 if a == b || a == c || b == c
   puts "Это равнобедренный треугольник"
