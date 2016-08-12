@@ -15,6 +15,6 @@ if d < 0
   puts "Дискриминант: #{d.round(3)}.\nКорней нет."
 elsif d == 0
   puts "Дискриминант: #{d.round(3)}.\nКорень: #{(-b / 2 * a).round(3)}"
-elsif d > 0
+else
   puts "Дискриминант: #{d.round(3)}.\nКорень 1: #{((-b + Math.sqrt(d)) / 2 * a).round(3)}.\nКорень 2: #{((-b - Math.sqrt(d)) / 2 * a).round(3)}"
 end
