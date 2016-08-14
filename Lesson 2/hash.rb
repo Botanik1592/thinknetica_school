@@ -1,10 +1,10 @@
 # Заполнить хеш гласными буквами, где значением будет являтся порядковый номер буквы в алфавите (a - 1)
 
-hh = Hash.new
+hh = {}
 arr = ["a", "e", "i", "o", "u"]
-i = 0
 
-("a".."z").each do |let|
-  i += 1
-  hh[let] = i if arr.include?(let)
+("a".."z").each_with_index do |let, i|
+  hh[let] = i+1 if arr.include?(let)
 end
+
+puts hh
