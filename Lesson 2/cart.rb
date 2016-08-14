@@ -6,8 +6,7 @@
 # товара и кол-во купленного товара. Также вывести итоговую сумму за каждый товар.
 # Вычислить и вывести на экран итоговую сумму всех покупок в "корзине".
 
-cart = Hash.new
-itog = 0
+cart = {}
 
 loop do
   print "Введите название товара (введите 'стоп' чтобы прекратить): "
@@ -20,14 +19,15 @@ loop do
   print "Введите колличество товара '#{item}', которое вы собираетесь приобрести: "
   itemcount = gets.to_f
 
-  cart[item] = {:cost => itemcost, :count => itemcount}
+  cart[item] = {cost: itemcost, count: itemcount}
   puts
 end
 
+itog = 0
 puts
-puts "==============================================
+puts "=============================================="
 cart.each do |item, value|
-  itog = itog + value[:count] * value[:cost]
+  itog += value[:count] * value[:cost]
   puts "#{item}: #{value[:count]} шт.\nЦена за шт.: #{value[:cost]}р.\nИтого за #{item}: #{value[:count] * value[:cost]} р."
   puts "---------------------------------------------"
 end
