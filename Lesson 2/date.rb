@@ -3,7 +3,13 @@
 
 months = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
 
-num = 0
+def days_count (month, day, months)
+  num = 0
+  (month-1).times do |i|
+    num += months[i]
+  end
+  num += day
+end
 
 print "Введите число (цифры): "
 day = gets.to_i
@@ -12,17 +18,11 @@ month = gets.to_i
 print "Введите год (четыре цифры): "
 year = gets.to_i
 
+
 if (year % 4 == 0 && !(year % 100 == 0)) || year % 400 == 0 || year == 2000
   months[1] = 29
-  (month-1).times do |i|
-    num = num + months[i]
-  end
-  num = num + day
+  puts "Номер этого дня с начала года: #{days_count(month, day, months)}"
 else
-  (month-1).times do |i|
-    num = num + months[i]
-  end
-  num = num + day
+  puts "Номер этого дня с начала года: #{days_count(month, day, months)}"
 end
 
-puts "Номер этого дня с начала года: #{num}"
