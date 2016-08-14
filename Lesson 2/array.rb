@@ -1,10 +1,17 @@
 # Заполнить массив числами от 10 до 100 с шагом 5
 
-arr = Array.new
+arr = []
 i = 10
 
-loop do
+while i <= 100 do
   arr << i
   i += 5
-  break if i > 100
 end
+
+# Или можно использовать такую конструкцию:
+#
+# until i > 100 do
+#   arr << i
+#   i += 5
+# end
+#
