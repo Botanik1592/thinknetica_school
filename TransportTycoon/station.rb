@@ -10,13 +10,13 @@ class Station
   def recept_train(train)
     @trains << train
     train.current_station = self
-    puts "#{train.type} поезд № #{train.number} прибыл на станцию #{@name}."
+    puts "Поезд № #{train.number} прибыл на станцию #{@name}."
   end
 
   def show_trains
     puts "Список поездов на станции #{@name}:"
     @trains.each_with_index do |train, i|
-      puts "№ #{train.number} - #{train.type}"
+      puts "№ #{train.number} - #{train.type} - вагонов #{train.wagons_count}"
     end
   end
 
@@ -25,17 +25,15 @@ class Station
 # т.к. оно нагляднее. Внизу в комментариях я привожу метод из ТЗ
 
   def show_passenger_trains
-    puts "Список пассажирских поездов на станции #{@name}:"
-    trains_selector("пассажирский")
+    puts "Пассажирских поездов на станции #{@name}: #{trains_selector(:passenger)}"
   end
 
   def show_freight_trains
-    puts "Список грузовых поездов на станции #{@name}:"
-    trains_selector("грузовой")
+    puts "Грузовых поездов на станции #{@name}: #{trains_selector(:cargo)}"
   end
 
   def send_train(train)
-    puts "#{train.type} поезд № #{train.number} ушел со станции #{@name}."
+    puts "Поезд № #{train.number} ушел со станции #{@name}."
     @trains.delete(train)
   end
 
@@ -45,11 +43,10 @@ class Station
     count = 0
     @trains.each do |train|
       if train.type == type
-        puts "№ #{train.number} - #{train.type}"
         count += 1
       end
     end
-    puts "Итого: #{count}"
+    return count
   end
 end
 
