@@ -16,16 +16,16 @@ class Train
     @speed = 0
   end
 
-  def wagons_count
+  def wagons
     puts @wagons_count
   end
 
   def add_wagon
-    speed == 0 ? @wagons_count += 1 : (puts "Прицеплять вагоны можно при полной остановке поезда.")
+    speed == 0 ? @wagons_count += 1 : puts("Прицеплять вагоны можно при полной остановке поезда.")
   end
 
   def remove_wagon
-    speed == 0 ? @wagons_count -= 1 : (puts "Отцеплять вагоны можно при полной остановке поезда.")
+    speed == 0 ? @wagons_count -= 1 : puts("Отцеплять вагоны можно при полной остановке поезда.")
   end
 
   def recieve_route(route)
@@ -55,6 +55,24 @@ class Train
       puts "Поезд уже на этой станции!"
     else
       puts "Неизвестное местоназначение."
+    end
+  end
+
+  def local_station
+    puts "Поезд на станции #{@current_station.name}"
+  end
+
+  def next_station
+    next_station = @route.index(@current_station).to_i+1
+    puts "Следущая станция #{@route[next_station].name}"
+  end
+
+  def prev_station
+    prev_station = @route.index(@current_station).to_i-1
+    if prev_station < 0
+      puts "Мы на конечной."
+    else
+      puts "Предыдущая станция #{@route[prev_station].name}"
     end
   end
 end
