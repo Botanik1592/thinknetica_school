@@ -1,33 +1,66 @@
 class Train
 
-  TYPE = {passengers: "пасажирский", cargo: "грузовой"}
+  #attr_accessor :current_station
 
-  attr_accessor :speed, :current_station
+  attr_reader :number, :type, :route, :current_speed, :current_station, :wagons
 
-  attr_reader :number, :type, :wagons_count, :route
-
-  def initialize(number, type, wagons)
+  def initialize(number, type)
     @number = number
     @type = type
-    @wagons_count = wagons
-    @speed = 0
+    @current_speed = 0
+    @current_station = ''
     @route = []
+    @wagons = []
+  end
+
+  def add_current_station(station)
+    add_current_station!(station)
   end
 
   def stop
-    @speed = 0
+    stop! if train_running?
   end
 
-  def wagons
-    puts @wagons_count
+  def go
+    go! if train_stopped?
   end
 
-  def add_wagon
-    speed == 0 ? @wagons_count += 1 : puts("Прицеплять вагоны можно при полной остановке поезда.")
+  def train_stopped?
+    self.current_speed.zero?
   end
 
-  def remove_wagon
-    speed == 0 && @wagons_count > 0 ? @wagons_count -= 1 : puts("Отцеплять вагоны можно при полной остановке поезда. Вагонов должно быть больше нуля!")
+  def train_running?
+    self.current_speed != 0
+  end
+
+  def add_wagon(wagon)
+    if self.current_speed == 0
+      if wagon.type == self.type
+        @wagons << wagon
+      else
+        puts"Прицеплять можно только вагоны своего типа."
+      end
+    else
+      puts "Прицеплять вагоны можно при полной остановке поезда."
+    end
+  end
+
+  def remove_wagon(wagon)
+    if self.current_speed == 0
+      if @wagons.size > 0
+        @wagons.delete(wagon)
+      else
+        puts"Вагонов должно быть больше нуля!"
+      end
+    else
+      puts "Прицеплять вагоны можно при полной остановке поезда."
+    end
+  end
+
+  def show_wagons
+    @wagons.each_with_index do |wagon, i|
+      puts "#{i+1}) #{wagon}"
+    end
   end
 
   def recieve_route(route)
@@ -81,5 +114,28 @@ class Train
       puts "Предыдущая станция #{@route[prev_station].name}"
     end
   end
+
+  protected
+
+  TYPE = {passenger: "пасажирский", cargo: "грузовой"}
+
+  attr_writer :current_speed, :current_station
+
+  def go!
+    self.current_speed = train_speed
+  end
+
+  def stop!
+    self.current_speed = 0
+  end
+
+  def train_speed
+    80
+  end
+
+  def add_current_station!(station)
+    self.current_station = station
+  end
+
 end
 
