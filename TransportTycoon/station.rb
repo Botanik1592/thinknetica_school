@@ -9,15 +9,13 @@ class Station
 
   def recept_train(train)
     @trains << train
-    train.current_station = self
+    add_current_station!(train)
     puts "Поезд №#{train.number} прибыл на станцию #{self.name}."
   end
 
   def show_trains
     puts "Список поездов на станции #{self.name}:"
-    @trains.each do |train|
-      puts "№ #{train.number} - #{Train::TYPE[train.type]} - вагонов #{train.wagons_count}"
-    end
+    show_trains!
   end
 
   def show_passenger_trains
@@ -33,8 +31,11 @@ class Station
     @trains.delete(train)
   end
 
-  protected
 
+# Использую прайват т.к. нет подклассов
+  private
+
+# Скрываем механику выбора поезда
   def trains_selector(type)
     count = 0
     @trains.each do |train|
@@ -43,6 +44,18 @@ class Station
       end
     end
     return count
+  end
+
+# Скрываем механику показа всех поездов на станции
+  def show_trains!
+  @trains.each do |train|
+    puts "№ #{train.number} - #{Train::TYPE[train.type]} - вагонов #{train.wagons.size}"
+  end
+  end
+
+# Скрываем процедуру обновления текущей станции у поезда
+  def add_current_station!(train)
+    train.add_current_station(self)
   end
 
 end
