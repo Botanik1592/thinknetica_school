@@ -1,5 +1,7 @@
 class Train
 
+  TYPE = {passengers: "пасажирский", cargo: "грузовой"}
+
   attr_accessor :speed, :current_station
 
   attr_reader :number, :type, :wagons_count, :route
@@ -25,7 +27,7 @@ class Train
   end
 
   def remove_wagon
-    speed == 0 ? @wagons_count -= 1 : puts("Отцеплять вагоны можно при полной остановке поезда.")
+    speed == 0 && @wagons_count > 0 ? @wagons_count -= 1 : puts("Отцеплять вагоны можно при полной остановке поезда. Вагонов должно быть больше нуля!")
   end
 
   def recieve_route(route)
@@ -59,12 +61,16 @@ class Train
   end
 
   def local_station
-    puts "Поезд на станции #{@current_station.name}"
+    puts "Поезд №#{self.number} на станции #{@current_station.name}"
   end
 
   def next_station
     next_station = @route.index(@current_station).to_i+1
-    puts "Следущая станция #{@route[next_station].name}"
+    if next_station > @route.size.to_i-1
+      puts "Мы на конечной."
+    else
+      puts "Следущая станция #{@route[next_station].name}"
+    end
   end
 
   def prev_station
