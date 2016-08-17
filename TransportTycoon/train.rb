@@ -32,24 +32,20 @@ class Train
   end
 
   def add_wagon(wagon)
-    if self.current_speed == 0
-      if wagon.type == self.type
+    if self.current_speed == 0 && wagon.type == self.type
         @wagons << wagon
-      else
-        puts"Прицеплять можно только вагоны своего типа."
-      end
+    elsif self.current_speed == 0 && wagon.type != self.type
+        puts "Прицеплять можно только вагоны своего типа."
     else
       puts "Прицеплять вагоны можно при полной остановке поезда."
     end
   end
 
   def remove_wagon(wagon)
-    if self.current_speed == 0
-      if @wagons.size > 0
+    if self.current_speed == 0 && @wagons.size > 0
         @wagons.delete(wagon)
-      else
-        puts"Вагонов должно быть больше нуля!"
-      end
+    elsif self.current_speed == 0 && @wagons.size == 0
+        puts "Вагонов должно быть больше нуля!"
     else
       puts "Прицеплять вагоны можно при полной остановке поезда."
     end
