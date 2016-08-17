@@ -6,13 +6,11 @@ require "./passenger_train.rb"
 require "./cargo_train.rb"
 require "./station.rb"
 require "./route.rb"
-require "./app_classes.rb"
+require "./app_defs.rb"
 
-@message = ""
-@stations = []
-@trains = []
+dispetcher = Dispetcher.new
 
 system ('clear')
 puts "Запуск программы управления транспортными потоками 'Диспетчер 0.1'..."
 sleep(1)
-menu
+dispetcher.menu
