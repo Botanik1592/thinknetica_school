@@ -9,13 +9,15 @@ class Station
 
   def recept_train(train)
     @trains << train
-    add_current_station!(train)
+    train.add_current_station(self)
     puts "Поезд №#{train.number} прибыл на станцию #{self.name}."
   end
 
   def show_trains
     puts "Список поездов на станции #{self.name}:"
-    show_trains!
+    @trains.each do |train|
+     puts "№ #{train.number} - #{Train::TYPE[train.type]} - вагонов #{train.wagons.size}"
+    end
   end
 
   def show_passenger_trains
@@ -45,17 +47,4 @@ class Station
     end
     return count
   end
-
-# Скрываем механику показа всех поездов на станции
-  def show_trains!
-  @trains.each do |train|
-    puts "№ #{train.number} - #{Train::TYPE[train.type]} - вагонов #{train.wagons.size}"
-  end
-  end
-
-# Скрываем процедуру обновления текущей станции у поезда
-  def add_current_station!(train)
-    train.add_current_station(self)
-  end
-
 end
