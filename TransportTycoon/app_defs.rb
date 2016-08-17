@@ -70,7 +70,7 @@ private
   # Создание пассажирского поезда
   def create_passenger_trains
     system ('clear')
-    train = PassengerTrain.new(@trains.size+1, :passenger)
+    train = PassengerTrain.new(@trains.size+1)
     @trains << train
     @message = "Пассажирский поезд №#{train.number} создан!"
   end
@@ -78,7 +78,7 @@ private
   # Создание грузового поезда
   def create_cargo_trains
     system ('clear')
-    train = CargoTrain.new(@trains.size+1, :cargo)
+    train = CargoTrain.new(@trains.size+1)
     @trains << train
     @message = "Грузовой поезд №#{train.number} создан!"
   end
