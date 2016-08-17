@@ -1,5 +1,10 @@
 class CargoTrain < Train
 
+  def initialize(number)
+    super
+    @type = :cargo
+  end
+
   protected
 
   def train_speed
