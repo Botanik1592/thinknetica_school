@@ -1,7 +1,5 @@
 class Train
 
-  #attr_accessor :current_station
-
   attr_reader :number, :type, :route, :current_speed, :current_station, :wagons
 
   def initialize(number, type)
