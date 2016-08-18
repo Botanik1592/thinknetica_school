@@ -1,15 +1,7 @@
 class Station
-  @@station_list = []
-
-  def self.all
-    @@station_list.each_with_index do |station, i|
-      puts "#{i+1}) #{station.name}"
-    end
-    # Если нужно просто возвращать массив без вывода списком
-    #@@station_list
-  end
-
   include InstanceCounter
+
+  @@station_list = []
 
   attr_reader :name
 
@@ -17,6 +9,10 @@ class Station
     @name = name
     @trains = []
     @@station_list << self
+  end
+
+  def self.all
+    @@station_list
   end
 
   def recept_train(train)

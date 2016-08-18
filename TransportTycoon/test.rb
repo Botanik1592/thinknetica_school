@@ -11,32 +11,27 @@ require "./station.rb"
 
 # Тест поездов и задания имени производителя
 train1 = PassengerTrain.new (111)
-train1.manufacturer = "Тагильский Вагоностроительный завод"
+
 train2 = PassengerTrain.new (112)
-train2.manufacturer = "Тагильский Вагоностроительный завод"
+
 train3 = PassengerTrain.new (113)
-train3.manufacturer = "Тагильский Вагоностроительный завод"
+
 
 train4 = CargoTrain.new (211)
-train4.manufacturer = "Тагильский Вагоностроительный завод"
+
 train5 = CargoTrain.new (212)
-train5.manufacturer = "Тагильский Вагоностроительный завод"
+
 train6 = CargoTrain.new (213)
-train6.manufacturer = "Тагильский Вагоностроительный завод"
+
 
 # Тест вагонов и задания имени производителя
 wagon1 = PassengerWagon.new
-wagon1.manufacturer = "Тагильский Вагоностроительный завод"
 wagon2 = PassengerWagon.new
-wagon2.manufacturer = "Тагильский Вагоностроительный завод"
 wagon3 = PassengerWagon.new
-wagon3.manufacturer = "Тагильский Вагоностроительный завод"
 wagon4 = CargoWagon.new
-wagon4.manufacturer = "Тагильский Вагоностроительный завод"
 wagon5 = CargoWagon.new
-wagon5.manufacturer = "Тагильский Вагоностроительный завод"
 wagon6 = CargoWagon.new
-wagon6.manufacturer = "Тагильский Вагоностроительный завод"
+
 
 # Тест списка объектов класса
 st1 = Station.new ("Питер")
