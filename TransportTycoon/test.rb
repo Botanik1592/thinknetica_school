@@ -61,5 +61,7 @@ puts wagon5.manufacturer
 puts wagon6.manufacturer
 
 # Тест возврата колличества объектов класса
-puts Train.instances
-puts Wagon.instances
+puts PassengerTrain.instances
+puts CargoTrain.instances
+puts PassengerWagon.instances
+puts CargoWagon.instances
