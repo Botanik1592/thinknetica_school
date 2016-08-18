@@ -1,4 +1,3 @@
-# В классе Station (жд станция) создать метод класса all, который возвращает все станции (объекты), созданные на данный момент
 class Station
   @@station_list = []
 
@@ -6,6 +5,8 @@ class Station
     @@station_list.each_with_index do |station, i|
       puts "#{i+1}) #{station.name}"
     end
+    # Если нужно просто возвращать массив без вывода списком
+    #@@station_list
   end
 
   include InstanceCounter
