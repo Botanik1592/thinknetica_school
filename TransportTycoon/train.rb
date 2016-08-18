@@ -1,5 +1,12 @@
 class Train
+  @@trains_list = {}
 
+  def self.find(number)
+    @@trains_list.has_key?(number) ? train = @@trains_list[number] : nil
+  end
+
+  include Manufacturer
+  include InstanceCounter
   attr_reader :number, :type, :route, :current_speed, :current_station, :wagons
 
   def initialize(number)
@@ -8,6 +15,9 @@ class Train
     @current_station = ''
     @route = []
     @wagons = []
+    @manufacturer = ""
+    @@trains_list[number] = self
+    register_instance
   end
 
   def add_current_station(station)

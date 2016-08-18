@@ -1,10 +1,21 @@
+# В классе Station (жд станция) создать метод класса all, который возвращает все станции (объекты), созданные на данный момент
 class Station
+  @@station_list = []
+
+  def self.all
+    @@station_list.each_with_index do |station, i|
+      puts "#{i+1}) #{station.name}"
+    end
+  end
+
+  include InstanceCounter
 
   attr_reader :name
 
   def initialize(name)
     @name = name
     @trains = []
+    @@station_list << self
   end
 
   def recept_train(train)

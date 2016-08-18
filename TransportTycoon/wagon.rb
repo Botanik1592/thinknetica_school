@@ -1,4 +1,6 @@
 class Wagon
+  include Manufacturer
+  include InstanceCounter
 
   protected
 
