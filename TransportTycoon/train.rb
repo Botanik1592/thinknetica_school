@@ -6,6 +6,8 @@ class Train
 
   attr_reader :number, :type, :route, :current_speed, :current_station, :wagons
 
+  NUMBER = /[\w\d]{3}[-]?[\w\d]{2}/i
+
   def initialize(number)
     @number = number
     @current_speed = 0
@@ -13,12 +15,19 @@ class Train
     @route = []
     @wagons = []
     @manufacturer = ""
+    validate!
     @@trains_list[number] = self
     register_instance
   end
 
   def self.find(number)
     @@trains_list.has_key?(number) ? @@trains_list[number] : nil
+  end
+
+  def valid?
+    validate!
+  rescue
+    false
   end
 
   def add_current_station(station)
@@ -122,6 +131,12 @@ class Train
   protected
 
   TYPE = {passenger: "пасажирский", cargo: "грузовой"}
+
+  def validate!
+    raise "Номер не может быть пустым!" if @number.nil?
+    raise "Номер имеет неверный формат! Используйте XXX-XX или XXXXX." if @number !~ NUMBER
+    true
+  end
 
   attr_writer :current_speed, :current_station
 
