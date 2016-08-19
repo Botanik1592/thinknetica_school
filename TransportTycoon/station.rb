@@ -52,7 +52,7 @@ class Station
   private
 
   def validate!
-    raise "Название не может быть пустым!" if name.nil? || name == ""
+    raise "Название не может быть пустым!" if name.nil?
     raise "Название должно начинаться минимум с двух букв!" if name !~ NAME
     true
   end
