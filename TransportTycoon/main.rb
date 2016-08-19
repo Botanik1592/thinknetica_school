@@ -1,3 +1,5 @@
+require "./manufacturer.rb"
+require "./instance_counter.rb"
 require "./wagon.rb"
 require "./passenger_wagon.rb"
 require "./cargo_wagon.rb"
