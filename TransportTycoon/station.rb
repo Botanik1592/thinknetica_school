@@ -5,6 +5,8 @@ class Station
 
   attr_reader :name
 
+  NAME = /\D{2,}[\w+]?/i
+
   def initialize(name)
     @name = name
     @trains = []
@@ -51,6 +53,7 @@ class Station
 
   def validate!
     raise "Название не может быть пустым!" if name.nil? || name == ""
+    raise "Название должно начинаться минимум с двух букв!" if name !~ NAME
     true
   end
 
