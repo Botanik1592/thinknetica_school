@@ -40,9 +40,9 @@ private
         when "1"
           create_stations
         when "2"
-          create_passenger_trains
+          create_trains(2)
         when "3"
-          create_cargo_trains
+          create_trains(3)
         when "4"
           adding_wagons
         when "5"
@@ -58,8 +58,19 @@ private
   end
 
   # Создание станций
+
   def create_stations
+    attempt ||= 0
+    system ('clear') if attempt == 0
+    cr_stations
+  rescue StandardError => e
+    attempt += 1
     system ('clear')
+    puts e
+    retry while e != nil
+  end
+
+  def cr_stations
     print "Для создания станции введите название станции: "
     name = gets.strip
     station = Station.new(name)
@@ -67,27 +78,41 @@ private
     @message = "Станция #{station.name} создана!"
   end
 
-  # Создание пассажирского поезда
-  def create_passenger_trains
+  # Создание поездов с валидацией
+  def create_trains(input)
+    attempt ||= 0
+    system ('clear') if attempt == 0
+    input == 3 ? cc_train : cp_train
+  rescue StandardError => e
+    attempt += 1
     system ('clear')
-    train = PassengerTrain.new(@trains.size+1)
+    puts e
+    retry while e != nil
+  end
+
+  # Создание пассажирского поезда
+  def cp_train
+    print "Введите номер пассажирского поезда в формате XXX-XX или XXXXX: "
+    num = gets.strip.to_sym
+    train = PassengerTrain.new(num)
     @trains << train
     @message = "Пассажирский поезд №#{train.number} создан!"
   end
 
   # Создание грузового поезда
-  def create_cargo_trains
-    system ('clear')
-    train = CargoTrain.new(@trains.size+1)
-    @trains << train
-    @message = "Грузовой поезд №#{train.number} создан!"
+  def cc_train
+      print "Введите номер грузового поезда в формате XXX-XX или XXXXX: "
+      num = gets.strip.to_sym
+      train = CargoTrain.new(num)
+      @trains << train
+      @message = "Грузовой поезд №#{train.number} создан!"
   end
 
   # Выбор поезда (используется в классах добавления/удаления вагонов и в классе добавления поезда на станцию)
   def train_selector
     error = ""
-    @trains.each do |train|
-      puts "№ #{train.number} - #{Train::TYPE[train.type]} - вагонов #{train.wagons.size}"
+    @trains.each_with_index do |train, i|
+      puts "[#{i+1}] - № #{train.number} - #{Train::TYPE[train.type]} - вагонов #{train.wagons.size}"
     end
     loop do
       #system ('clear')
