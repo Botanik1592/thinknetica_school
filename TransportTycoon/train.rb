@@ -16,6 +16,7 @@ class Train
     @wagons = []
     @manufacturer = ""
     validate!
+    number_validate!
     @@trains_list[number] = self
     register_instance
   end
@@ -133,8 +134,14 @@ class Train
   TYPE = {passenger: "пасажирский", cargo: "грузовой"}
 
   def validate!
-    raise "Номер не может быть пустым!" if @number.nil?
-    raise "Номер имеет неверный формат! Используйте XXX-XX или XXXXX." if @number !~ NUMBER
+    raise "Номер не может быть пустым!" if number.nil?
+    raise "Номер имеет неверный формат! Используйте XXX-XX или XXXXX." if number !~ NUMBER
+    raise "Такой номер (#{number}) уже присутствует!" if @@trains_list.has_key?(number)
+    true
+  end
+
+  def number_validate!
+    raise "Такой номер (#{number}) уже присутствует!" if @@trains_list.has_key?(number)
     true
   end
 
