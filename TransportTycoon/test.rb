@@ -7,11 +7,9 @@ require "./wagon.rb"
 require "./passenger_wagon.rb"
 require "./cargo_wagon.rb"
 require "./station.rb"
+require "./route.rb"
 
-train1 = PassengerTrain.new ('111-2A')
-#train2 = PassengerTrain.new ('111-2A')
-#train2 = CargoTrain.new
-puts PassengerTrain.find ('111-2A')
-#puts Train.register_instance
-puts PassengerTrain.instances
-puts train1.valid?
+piter = Station.new ("Питер")
+moscow = Station.new ("Москва")
+
+route1 = Route.new(piter, moscow, "Питер-Москва")
