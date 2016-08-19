@@ -18,7 +18,6 @@ class Station
   def recept_train(train)
     @trains << train
     train.add_current_station(self)
-    puts "Поезд №#{train.number} прибыл на станцию #{self.name}."
   end
 
   def show_trains
@@ -37,7 +36,6 @@ class Station
   end
 
   def send_train(train)
-    puts "Поезд №#{train.number} ушел со станции #{self.name}."
     @trains.delete(train)
   end
 
