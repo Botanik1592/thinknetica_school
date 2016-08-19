@@ -46,7 +46,6 @@ class Station
     @trains.delete(train)
   end
 
-
 # Использую прайват т.к. нет подклассов
   private
 
