@@ -8,11 +8,18 @@ class Station
   def initialize(name)
     @name = name
     @trains = []
+    validate!
     @@station_list << self
   end
 
   def self.all
     @@station_list
+  end
+
+  def valid?
+    validate!
+  rescue
+    false
   end
 
   def recept_train(train)
@@ -42,6 +49,11 @@ class Station
 
 # Использую прайват т.к. нет подклассов
   private
+
+  def validate!
+    raise "Название не может быть пустым!" if name.nil? || name == ""
+    true
+  end
 
 # Скрываем механику выбора поезда
   def trains_selector(type)
