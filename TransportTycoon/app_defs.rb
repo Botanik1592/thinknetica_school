@@ -96,7 +96,7 @@ private
     num = gets.strip.to_sym
     train = PassengerTrain.new(num)
     @trains << train
-    @message = "Пассажирский поезд №#{train.number} создан!"
+    @message = "Пассажирский поезд № #{train.number} создан!"
   end
 
   # Создание грузового поезда
@@ -105,7 +105,7 @@ private
       num = gets.strip.to_sym
       train = CargoTrain.new(num)
       @trains << train
-      @message = "Грузовой поезд №#{train.number} создан!"
+      @message = "Грузовой поезд № #{train.number} создан!"
   end
 
   # Выбор поезда (используется в классах добавления/удаления вагонов и в классе добавления поезда на станцию)
