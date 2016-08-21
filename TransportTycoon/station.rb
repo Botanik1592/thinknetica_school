@@ -24,6 +24,12 @@ class Station
     false
   end
 
+  def each_train (block)
+    @trains.each do |train|
+      block.call (train)
+    end
+  end
+
   def recept_train(train)
     @trains << train
     train.add_current_station(self)
