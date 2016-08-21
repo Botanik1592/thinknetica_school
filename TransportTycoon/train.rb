@@ -31,6 +31,12 @@ class Train
     false
   end
 
+  def each_wagon (&block)
+    @wagons.each_with_index do |wagon, i|
+      block.call(wagon, i)
+    end
+  end
+
   def add_current_station(station)
     add_current_station!(station)
   end
