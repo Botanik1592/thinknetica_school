@@ -2,9 +2,9 @@ class CargoWagon < Wagon
 
   attr_reader :load_capacity, :busy_capacity
 
-  def initialize (load_capacity = 56)
+  def initialize (load_capacity = 56.0)
     @load_capacity = load_capacity
-    @busy_capacity = 0
+    @busy_capacity = 0.0
   end
 
   def type
