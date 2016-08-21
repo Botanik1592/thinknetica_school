@@ -22,6 +22,7 @@ class Dispetcher
     puts "[5] - для удаления вагонов из состава поезда"
     puts "[6] - для помещения поезда на станцию"
     puts "[7] - Список станций и поездов на них"
+    puts "[8] - Список доступных поездов"
     puts "[0] - Выход из программы"
     puts "--====--------====--"
     puts
@@ -51,6 +52,8 @@ private
           puting_train_to_station
         when "7"
           list_stations_trains
+        when "8"
+          aviable_trains
         when "0"
           exit
         else @message = "Некорректный ввод"
@@ -136,13 +139,17 @@ private
     print "Введите колличество вагонов для добавления к составу № #{train.number}: "
     user_input = gets.to_i
     if train.type == :passenger
+      print "Введите колличество пассажирских мест в вагоне: "
+      pas_capacity = gets.to_i
       user_input.times do
-        wagon = PassengerWagon.new
+        wagon = PassengerWagon.new (pas_capacity)
         train.add_wagon(wagon)
       end
     else
+      print "Введите доступный объем груза в вагоне в тоннах: "
+      load_capacity = gets.to_i
       user_input.times do
-        wagon = CargoWagon.new
+        wagon = CargoWagon.new (load_capacity)
         train.add_wagon(wagon)
       end
     end
@@ -187,13 +194,38 @@ private
     end
   end
 
+  # Функция показа информации по поездам и вагонам
+  def train_show_wagons (train)
+    puts "#{train.number} - #{Train::TYPE[train.type]} - #{train.wagons.size}: "
+    if train.type == :passenger
+      train.each_wagon { |wagon, i| puts "№ #{i+1} - #{Wagon::TYPE[wagon.type]} - Свободно: #{wagon.free_places} мест - Занято: #{wagon.busy_places} мест" }
+    else
+      train.each_wagon { |wagon, i| puts "№ #{i+1} - #{Wagon::TYPE[wagon.type]} - Свободно: #{wagon.free_capacity} тонн - Занято: #{wagon.busy_capacity} тонн" }
+    end
+  end
+
   # Список станций с поездами
   def list_stations_trains
+    # Блок для вывода информации о поездах и их вагонах на станциях
+    train_block = lambda do |train|
+      train_show_wagons (train)
+    end
+
     system ('clear')
-    @stations.each_with_index do |station, i|
-      print "#{i+1}) "
-      station.show_trains
+    @stations.each do |station|
+      puts station.name
+      station.each_train (train_block)
       puts
+    end
+    print "Нажмите Enter для продолжения."
+    gets
+  end
+
+  # Показ информации о поездах и вагонах
+  def aviable_trains
+    system ('clear')
+    @trains.each do |train|
+      train_show_wagons (train)
     end
     print "Нажмите Enter для продолжения."
     gets
