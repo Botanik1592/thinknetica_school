@@ -23,6 +23,7 @@ class Dispetcher
     puts "[6] - для помещения поезда на станцию"
     puts "[7] - Список станций и поездов на них"
     puts "[8] - Список доступных поездов"
+    puts "[9] - Загрузка вагонов"
     puts "[0] - Выход из программы"
     puts "--====--------====--"
     puts
@@ -54,6 +55,8 @@ private
           list_stations_trains
         when "8"
           aviable_trains
+        when "9"
+          wagon_load
         when "0"
           exit
         else @message = "Некорректный ввод"
@@ -229,5 +232,29 @@ private
     end
     print "Нажмите Enter для продолжения."
     gets
+  end
+
+  # Загрузка вагона
+  def wagon_load
+    system ('clear')
+    train = train_selector
+    train_show_wagons (train)
+    print "Введите номер вагона: "
+    num = gets.to_i
+    wagon = train.wagons[num - 1]
+    if wagon.type == :passenger
+      wagon.take_place
+      @message = "Пассажир добавлен. Поезд № #{train.number} : Вагон № #{num} : Свободно: #{wagon.free_places} мест : Занято: #{wagon.busy_places} мест"
+    else
+      print "Сколько тонн товаров загрузить: "
+      product_count = gets.to_f
+      if product_count > wagon.free_capacity
+        @message = "Невозможно загрузить. Для загрузки доступно: #{wagon.free_capacity}"
+      else
+        wagon.load(product_count)
+        @message = "Загрузка завершена. Поезд № #{train.number} : Вагон № #{num} : Свободно: #{wagon.free_capacity} тонн : Занято: #{wagon.busy_capacity} тонн"
+      end
+    end
+
   end
 end
