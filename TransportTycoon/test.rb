@@ -16,6 +16,7 @@ st2 = Station.new ("Москва")
 # Создаем поезда
 tr = PassengerTrain.new ("111-22")
 tr2 = CargoTrain.new ("111-33")
+tr3 = PassengerTrain.new ("111-44")
 
 # Создаем вагоны
 pw1 = PassengerWagon.new
@@ -23,6 +24,12 @@ pw2 = PassengerWagon.new
 pw3 = PassengerWagon.new
 pw4 = PassengerWagon.new
 pw5 = PassengerWagon.new
+
+pw6 = PassengerWagon.new
+pw7 = PassengerWagon.new
+pw8 = PassengerWagon.new
+pw9 = PassengerWagon.new
+pw10 = PassengerWagon.new
 
 cw1 = CargoWagon.new
 cw2 = CargoWagon.new
@@ -37,6 +44,12 @@ tr.add_wagon (pw3)
 tr.add_wagon (pw4)
 tr.add_wagon (pw5)
 
+tr3.add_wagon (pw6)
+tr3.add_wagon (pw7)
+tr3.add_wagon (pw8)
+tr3.add_wagon (pw9)
+tr3.add_wagon (pw10)
+
 tr2.add_wagon (cw1)
 tr2.add_wagon (cw2)
 tr2.add_wagon (cw3)
@@ -46,6 +59,7 @@ tr2.add_wagon (cw5)
 # Добавляем поезда на станции
 st1.recept_train (tr)
 st2.recept_train (tr2)
+st2.recept_train (tr3)
 
 # Блок для вывода информации о поездах и их вагонах на станциях
 train_block = lambda do |train|
