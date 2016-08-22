@@ -242,14 +242,16 @@ private
     print "Введите номер вагона: "
     num = gets.to_i
     wagon = train.wagons[num - 1]
-    if wagon.type == :passenger
+    if wagon.type == :passenger && wagon.free_places > 0
       wagon.take_place
       @message = "Пассажир добавлен. Поезд № #{train.number} : Вагон № #{num} : Свободно: #{wagon.free_places} мест : Занято: #{wagon.busy_places} мест"
+    elsif wagon.type == :passenger && wagon.free_places == 0
+      @message = "Ошибка! В вагоне нет свободных мест"
     else
       print "Сколько тонн товаров загрузить: "
       product_count = gets.to_f
       if product_count > wagon.free_capacity
-        @message = "Невозможно загрузить. Для загрузки доступно: #{wagon.free_capacity}"
+        @message = "Ошибка! Для загрузки доступно: #{wagon.free_capacity}"
       else
         wagon.load(product_count)
         @message = "Загрузка завершена. Поезд № #{train.number} : Вагон № #{num} : Свободно: #{wagon.free_capacity} тонн : Занято: #{wagon.busy_capacity} тонн"
