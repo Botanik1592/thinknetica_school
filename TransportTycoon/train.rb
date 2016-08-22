@@ -6,7 +6,7 @@ class Train
 
   attr_reader :number, :type, :route, :current_speed, :current_station, :wagons
 
-  NUMBER = /[\w\d]{3}[-]?[\w\d]{2}/i
+  NUMBER = /^[a-z0-9]{3}[-]?[a-z0-9]{2}$/i
 
   def initialize(number)
     @number = number
