@@ -8,7 +8,7 @@ require "./passenger_train.rb"
 require "./cargo_train.rb"
 require "./station.rb"
 require "./route.rb"
-require "./app_defs.rb"
+require "./dispetcher.rb"
 
 dispetcher = Dispetcher.new
 
