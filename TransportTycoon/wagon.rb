@@ -4,6 +4,8 @@ class Wagon
 
   attr_reader :capacity, :busy_capacity
 
+  TYPE = { passenger: 'пассажирский', cargo: 'грузовой' }.freeze
+
   def initialize
     register_instance
   end
@@ -12,16 +14,12 @@ class Wagon
     @capacity - @busy_capacity
   end
 
-  def load(num=0)
-    if self.type == :passenger
-      @busy_capacity += 1 if @busy_capacity < @capacity
-    else
-      @busy_capacity += num if @busy_capacity + num <= @capacity
+  def load(num = 0)
+    if type == :passenger && @busy_capacity < @capacity
+      @busy_capacity += 1
+    elsif type == :cargo && @busy_capacity + num <= @capacity
+      @busy_capacity += num
     end
   end
-
-  protected
-
-  TYPE = { passenger: "пассажирский", cargo: "грузовой" }
 
 end

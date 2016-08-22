@@ -14,7 +14,7 @@ class Train
     @current_station = ''
     @route = []
     @wagons = []
-    @manufacturer = ""
+    @manufacturer = ''
     validate!
     number_validate!
     @@trains_list[number] = self
@@ -22,7 +22,7 @@ class Train
   end
 
   def self.find(number)
-    @@trains_list.has_key?(number) ? @@trains_list[number] : nil
+    @@trains_list.key?(number) ? @@trains_list[number] : nil
   end
 
   def valid?
@@ -31,9 +31,9 @@ class Train
     false
   end
 
-  def each_wagon (&block)
+  def each_wagon
     @wagons.each_with_index do |wagon, i|
-      block.call(wagon, i)
+      yield(wagon, i)
     end
   end
 
@@ -50,36 +50,36 @@ class Train
   end
 
   def train_stopped?
-    self.current_speed.zero?
+    current_speed.zero?
   end
 
   def train_running?
-    self.current_speed != 0
+    current_speed.nonzero?
   end
 
   def add_wagon(wagon)
-    if self.current_speed == 0 && wagon.type == self.type
-        @wagons << wagon
-    elsif self.current_speed == 0 && wagon.type != self.type
-        puts "Прицеплять можно только вагоны своего типа."
+    if current_speed.zero? && wagon.type == type
+      @wagons << wagon
+    elsif current_speed.zero? && wagon.type != type
+      puts 'Прицеплять можно только вагоны своего типа.'
     else
-      puts "Прицеплять вагоны можно при полной остановке поезда."
+      puts 'Прицеплять вагоны можно при полной остановке поезда.'
     end
   end
 
   def remove_wagon(wagon)
-    if self.current_speed == 0 && @wagons.size > 0
-        @wagons.delete(wagon)
-    elsif self.current_speed == 0 && @wagons.size == 0
-        puts "Вагонов должно быть больше нуля!"
+    if current_speed.zero? && !@wagons.empty?
+      @wagons.delete(wagon)
+    elsif current_speed.zero? && @wagons.size.zero?
+      puts 'Вагонов должно быть больше нуля!'
     else
-      puts "Прицеплять вагоны можно при полной остановке поезда."
+      puts 'Прицеплять вагоны можно при полной остановке поезда.'
     end
   end
 
   def show_wagons
     @wagons.each_with_index do |wagon, i|
-      puts "#{i+1}) #{wagon}"
+      puts "#{i + 1}) #{wagon}"
     end
   end
 
@@ -89,47 +89,44 @@ class Train
 
   def go_to(station)
     if @route.include?(station) && station != @current_station
-
       if @route.index(@current_station).to_i > @route.index(station).to_i
         @current_station.send_train(self)
-        (@route.index(@current_station).to_i-1).downto(@route.index(station).to_i+1) do |i|
+        (@route.index(@current_station).to_i - 1).downto(@route.index(station).to_i + 1) do |i|
           @route[i].recept_train(self)
           @route[i].send_train(self)
         end
-        station.recept_train(self)
       else
         @current_station.send_train(self)
-        (@route.index(@current_station).to_i+1).upto(@route.index(station).to_i-1) do |i|
+        (@route.index(@current_station).to_i + 1).upto(@route.index(station).to_i - 1) do |i|
           @route[i].recept_train(self)
           @route[i].send_train(self)
         end
-        station.recept_train(self)
       end
-
+      station.recept_train(self)
     elsif station == @current_station
-      puts "Поезд уже на этой станции!"
+      puts 'Поезд уже на этой станции!'
     else
-      puts "Неизвестное местоназначение."
+      puts 'Неизвестное местоназначение.'
     end
   end
 
   def local_station
-    puts "Поезд №#{self.number} на станции #{@current_station.name}"
+    puts "Поезд №#{number} на станции #{@current_station.name}"
   end
 
   def next_station
-    next_station = @route.index(@current_station).to_i+1
-    if next_station > @route.size.to_i-1
-      puts "Мы на конечной."
+    next_station = @route.index(@current_station).to_i + 1
+    if next_station > @route.size.to_i - 1
+      puts 'Мы на конечной.'
     else
       puts "Следущая станция #{@route[next_station].name}"
     end
   end
 
   def prev_station
-    prev_station = @route.index(@current_station).to_i-1
+    prev_station = @route.index(@current_station).to_i - 1
     if prev_station < 0
-      puts "Мы на конечной."
+      puts 'Мы на конечной.'
     else
       puts "Предыдущая станция #{@route[prev_station].name}"
     end
@@ -137,17 +134,17 @@ class Train
 
   protected
 
-  TYPE = {passenger: "пасажирский", cargo: "грузовой"}
+  TYPE = { passenger: 'пасажирский', cargo: 'грузовой' }.freeze
 
   def validate!
-    raise "Номер не может быть пустым!" if number.nil?
-    raise "Номер имеет неверный формат! Используйте XXX-XX или XXXXX." if number !~ NUMBER
-    raise "Такой номер (#{number}) уже присутствует!" if @@trains_list.has_key?(number)
+    raise 'Номер не может быть пустым!' if number.nil?
+    raise 'Номер имеет неверный формат! Используйте XXX-XX или XXXXX.' if number !~ NUMBER
+    raise "Такой номер (#{number}) уже присутствует!" if @@trains_list.key?(number)
     true
   end
 
   def number_validate!
-    raise "Такой номер (#{number}) уже присутствует!" if @@trains_list.has_key?(number)
+    raise "Такой номер (#{number}) уже присутствует!" if @@trains_list.key?(number)
     true
   end
 
@@ -168,6 +165,4 @@ class Train
   def add_current_station!(station)
     self.current_station = station
   end
-
 end
-
