@@ -65,11 +65,7 @@ st2.recept_train (tr3)
 train_block = lambda do |train|
   puts "Станция #{train.current_station.name}:"
   puts "#{train.number} - #{Train::TYPE[train.type]} - #{train.wagons.size}: "
-  if train.type == :passenger
-    train.each_wagon { |wagon, i| puts "№ #{i+1} - #{Wagon::TYPE[wagon.type]} - Свободно: #{wagon.free_places} мест - Занято: #{wagon.busy_places} мест" }
-  else
-    train.each_wagon { |wagon, i| puts "№ #{i+1} - #{Wagon::TYPE[wagon.type]} - Свободно: #{wagon.free_capacity} тонн - Занято: #{wagon.busy_capacity} тонн" }
-  end
+  train.each_wagon { |wagon, i| puts "№ #{i+1} - #{Wagon::TYPE[wagon.type]} - Свободно: #{wagon.free_capacity} мест - Занято: #{wagon.busy_capacity} мест" }
 end
 
 # Выводим поезда и вагоны на станциях
