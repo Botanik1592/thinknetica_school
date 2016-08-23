@@ -113,19 +113,9 @@ class Train
 
   def go_to(station)
     if @route.include?(station) && station != @current_station && @route.index(@current_station).to_i > @route.index(station).to_i
-      @current_station.send_train(self)
-      (@route.index(@current_station).to_i - 1).downto(@route.index(station).to_i + 1) do |i|
-        @route[i].recept_train(self)
-        @route[i].send_train(self)
-      end
-      station.recept_train(self)
+      downto_station (station)
     elsif @route.include?(station) && station != @current_station && @route.index(@current_station).to_i < @route.index(station).to_i
-      @current_station.send_train(self)
-      (@route.index(@current_station).to_i + 1).upto(@route.index(station).to_i - 1) do |i|
-        @route[i].recept_train(self)
-        @route[i].send_train(self)
-      end
-      station.recept_train(self)
+      upto_station (station)
     elsif station == @current_station
       puts 'Поезд уже на этой станции!'
     else
@@ -140,6 +130,24 @@ class Train
     raise 'Номер имеет неверный формат! Используйте XXX-XX или XXXXX.' if number !~ NUMBER
     raise "Такой номер (#{number}) уже присутствует!" if @@trains_list.key?(number)
     true
+  end
+
+  def downto_station(station)
+    @current_station.send_train(self)
+    (@route.index(@current_station).to_i - 1).downto(@route.index(station).to_i + 1) do |i|
+      @route[i].recept_train(self)
+      @route[i].send_train(self)
+    end
+    station.recept_train(self)
+  end
+
+  def upto_station(station)
+    @current_station.send_train(self)
+    (@route.index(@current_station).to_i + 1).upto(@route.index(station).to_i - 1) do |i|
+      @route[i].recept_train(self)
+      @route[i].send_train(self)
+    end
+    station.recept_train(self)
   end
 
   def number_validate!
