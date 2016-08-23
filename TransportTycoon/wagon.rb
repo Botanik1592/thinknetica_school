@@ -21,5 +21,4 @@ class Wagon
       @busy_capacity += num
     end
   end
-
 end

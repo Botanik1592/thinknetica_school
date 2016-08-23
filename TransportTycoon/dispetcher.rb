@@ -8,11 +8,7 @@ class Dispetcher
   def menu
     loop do
       system 'clear'
-      sleep 0.1
-      puts
-      puts "Поездов: #{@trains.size}    Станций: #{@stations.size}"
-      puts
-      puts '--====[ Меню ]====--'
+      puts "--==[ Поездов: #{@trains.size} ]=-=[ Станций: #{@stations.size} ]==--"
       puts '[1] - для создания станций'
       puts '[2] - для создания пассажирского поезда'
       puts '[3] - для создания грузового поезда'
@@ -23,10 +19,8 @@ class Dispetcher
       puts '[8] - Список доступных поездов'
       puts '[9] - Загрузка вагонов'
       puts '[0] - Выход из программы'
-      puts '--====--------====--'
-      puts
-      puts @message
-      puts
+      puts '=============================================='
+      puts "\n#{@message}\n\n"
       menu_input
     end
   end
@@ -108,17 +102,16 @@ class Dispetcher
   end
 
   def train_selector
-    error = ''
     @trains.each_with_index do |train, i|
       puts "[#{i + 1}] - № #{train.number} - #{Train::TYPE[train.type]} - вагонов #{train.wagons.size}"
     end
     loop do
-      # system ('clear')
+      error ||= ''
       puts error
       print 'Введите номер поезда: '
       user_input = gets.to_i - 1
-      if @trains.include?(@trains[user_input])
-        return train = @trains[user_input]
+      if @trains.include?(@trains[user_input]) && user_input >= 0
+        return @trains[user_input]
       else
         error = 'Поезд с таким номером не существует!'
       end
@@ -127,11 +120,13 @@ class Dispetcher
 
   def adding_wagons
     system 'clear'
-    puts '--====[ Добавление вагонов ]====--'
-    puts
+    puts '--====[ Добавление вагонов ]====--\n\n'
+
     train = train_selector
+
     print "Введите колличество вагонов для добавления к составу № #{train.number}: "
     user_input = gets.to_i
+
     if train.type == :passenger
       print 'Введите колличество пассажирских мест в вагоне: '
       pas_capacity = gets.to_i
@@ -147,16 +142,19 @@ class Dispetcher
         train.add_wagon(wagon)
       end
     end
+
     @message = "К составу № #{train.number} было добавлено #{user_input} вагона(ов)."
   end
 
   def deleting_wagons
     system 'clear'
-    puts '--====[ Удаление вагонов ]====--'
-    puts
+    puts '--====[ Удаление вагонов ]====--\n\n'
+
     train = train_selector
+
     print "Введите колличество вагонов для удаления из состава №#{train.number}: "
     user_input = gets.to_i
+
     if train.wagons.size < user_input
       @message = 'Нельзя отцепить вагонов больше, чем есть у состава!'
     else
@@ -169,14 +167,17 @@ class Dispetcher
 
   def puting_train_to_station
     system 'clear'
-    puts '--====[ Добавление поезда на станцию ]====--'
-    puts
+    puts '--====[ Добавление поезда на станцию ]====--\n\n'
+
     train = train_selector
+
     @stations.each_with_index do |station, i|
       puts "[#{i + 1}] #{station.name}"
     end
+
     print "Введите номер станции для добавления поезда №#{train.number}: "
     user_input = gets.to_i - 1
+
     if @stations.size < user_input
       @message = 'Такой станции не существует!'
     else
@@ -197,34 +198,41 @@ class Dispetcher
     end
 
     system 'clear'
+
     @stations.each do |station|
       puts station.name
       station.each_train train_block
       puts
     end
+
     print 'Нажмите Enter для продолжения.'
     gets
   end
 
   def aviable_trains
     system 'clear'
+
     @trains.each do |train|
       train_show_wagons train
     end
+
     print 'Нажмите Enter для продолжения.'
     gets
   end
 
   def wagon_load
     system 'clear'
+
     train = train_selector
     train_show_wagons train
+
     print 'Введите номер вагона: '
     num = gets.to_i
     wagon = train.wagons[num - 1]
+
     if wagon.type == :passenger && wagon.free_capacity > 0
       wagon.load
-      @message = "Пассажир добавлен. Поезд № #{train.number} : Вагон № #{num} : Свободно: #{wagon.free_capacity} мест : Занято: #{wagon.busy_capacity} мест"
+      @message = "Пассажир добавлен. Поезд № #{train.number} : Вагон № #{num} : Свободно: #{wagon.free_capacity}: Занято: #{wagon.busy_capacity}"
     elsif wagon.type == :passenger && wagon.free_capacity.zero?
       @message = 'Ошибка! В вагоне нет свободных мест'
     else
@@ -234,7 +242,7 @@ class Dispetcher
         @message = "Ошибка! Для загрузки доступно: #{wagon.free_capacity}"
       else
         wagon.load(product_count)
-        @message = "Загрузка завершена. Поезд № #{train.number} : Вагон № #{num} : Свободно: #{wagon.free_capacity} тонн : Занято: #{wagon.busy_capacity} тонн"
+        @message = "Загрузка завершена. Поезд № #{train.number} : Вагон № #{num} : Свободно: #{wagon.free_capacity} : Занято: #{wagon.busy_capacity}"
       end
     end
   end

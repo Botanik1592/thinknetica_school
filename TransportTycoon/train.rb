@@ -6,6 +6,8 @@ class Train
 
   attr_reader :number, :type, :route, :current_speed, :current_station, :wagons
 
+  TYPE = { passenger: 'пасажирский', cargo: 'грузовой' }.freeze
+
   NUMBER = /^[a-z0-9]{3}[-]?[a-z0-9]{2}$/i
 
   def initialize(number)
@@ -87,29 +89,6 @@ class Train
     @route = route.route
   end
 
-  def go_to(station)
-    if @route.include?(station) && station != @current_station
-      if @route.index(@current_station).to_i > @route.index(station).to_i
-        @current_station.send_train(self)
-        (@route.index(@current_station).to_i - 1).downto(@route.index(station).to_i + 1) do |i|
-          @route[i].recept_train(self)
-          @route[i].send_train(self)
-        end
-      else
-        @current_station.send_train(self)
-        (@route.index(@current_station).to_i + 1).upto(@route.index(station).to_i - 1) do |i|
-          @route[i].recept_train(self)
-          @route[i].send_train(self)
-        end
-      end
-      station.recept_train(self)
-    elsif station == @current_station
-      puts 'Поезд уже на этой станции!'
-    else
-      puts 'Неизвестное местоназначение.'
-    end
-  end
-
   def local_station
     puts "Поезд №#{number} на станции #{@current_station.name}"
   end
@@ -132,9 +111,29 @@ class Train
     end
   end
 
-  protected
+  def go_to(station)
+    if @route.include?(station) && station != @current_station && @route.index(@current_station).to_i > @route.index(station).to_i
+      @current_station.send_train(self)
+      (@route.index(@current_station).to_i - 1).downto(@route.index(station).to_i + 1) do |i|
+        @route[i].recept_train(self)
+        @route[i].send_train(self)
+      end
+      station.recept_train(self)
+    elsif @route.include?(station) && station != @current_station && @route.index(@current_station).to_i < @route.index(station).to_i
+      @current_station.send_train(self)
+      (@route.index(@current_station).to_i + 1).upto(@route.index(station).to_i - 1) do |i|
+        @route[i].recept_train(self)
+        @route[i].send_train(self)
+      end
+      station.recept_train(self)
+    elsif station == @current_station
+      puts 'Поезд уже на этой станции!'
+    else
+      puts 'Неизвестное местоназначение.'
+    end
+  end
 
-  TYPE = { passenger: 'пасажирский', cargo: 'грузовой' }.freeze
+  protected
 
   def validate!
     raise 'Номер не может быть пустым!' if number.nil?
