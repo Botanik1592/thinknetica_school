@@ -16,6 +16,8 @@ tr = PassengerTrain.new '111-22'
 tr2 = CargoTrain.new '111-33'
 tr3 = PassengerTrain.new '111-44'
 
+route = Route.new(st1, st2, 'Питер-Москва')
+
 pw1 = PassengerWagon.new
 pw2 = PassengerWagon.new
 pw3 = PassengerWagon.new
@@ -33,6 +35,8 @@ cw2 = CargoWagon.new
 cw3 = CargoWagon.new
 cw4 = CargoWagon.new
 cw5 = CargoWagon.new
+
+tr.recieve_route (route)
 
 tr.add_wagon pw1
 tr.add_wagon pw2
@@ -62,5 +66,10 @@ train_block = lambda do |train|
   train.each_wagon { |wagon, i| puts "№ #{i + 1} - #{Wagon::TYPE[wagon.type]} - Свободно: #{wagon.free_capacity} мест - Занято: #{wagon.busy_capacity} мест" }
 end
 
+st1.each_train train_block
+st2.each_train train_block
+puts
+tr.go_to(st2)
+puts
 st1.each_train train_block
 st2.each_train train_block
