@@ -26,12 +26,10 @@ module Accessors
       define_method(name) { instance_variable_get(var_name) }
 
       define_method("#{name}=") do |value|
-        p value.class
-        value.class == type ? instance_variable_set(var_name, value) : raise("ClassesMismatch")
+
+        value.is_a?(type) ? instance_variable_set(var_name, value) : raise("ClassesMismatch")
 
       end
     end
   end
 end
-
-
